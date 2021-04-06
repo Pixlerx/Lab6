@@ -1,0 +1,73 @@
+package bsu.rfe.java.group8.Buben.var12B;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Scanner;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Field {
+    // Флаг приостановленности движения
+    private boolean paused;
+    Scanner in = new Scanner(System.in);
+    private int n = in.nextInt();
+    // Динамический список скачущих мячей
+    private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(n);
+    // Класс таймер отвечает за регулярную генерацию событий ActionEvent
+    // При создании его экземпляра используется анонимный класс,
+    // реализующий интерфейс ActionListener
+    private Timer repaintTimer = new Timer(n, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            repaint();
+        }
+    });
+    // конструктор
+    public Field()
+    {
+        setBackground(Color.WHITE);
+        // Запуск таймера
+        repaintTimer.start();
+    }
+    // Унаследованный от JPanel метод перерисовки компонента
+    public void paintComponent(Graphics g)
+    {
+        // Вызвать версию метода, унаследованную от предка
+        super.paintComponent(g);
+        Graphics2D canvas = (Graphics2D) g;
+        // Последовательно запросить прорисовку от всех мячей из списка
+        for(BouncingBall ball: balls) {
+            ball.paint(canvas);
+        }
+    }
+    // Метод добавляющий новый мячик
+    public void addBall()
+    {
+        //Заключается в добавлении в список нового экземпляра BouncingBall
+        // Всю инициализацию положения, скорости, размера, цвета
+        // BouncingBall выполняет сам в конструкторе
+        balls.add(new BouncingBall(this));
+    }
+
+    // Метод синхронизированный, т.е. только один поток может
+    // одновременно быть внутри
+    public synchronized void pause() {
+        paused = true;
+    }
+    // Метод синхронизированный, т.е. только один поток может
+    // одновременно быть внутри
+    public synchronized void resume(){
+        paused = false;
+        notifyAll();
+    }
+    // Синхронизированный метод проверки, может ли мяч двигаться
+    // (не включен ли режим паузы?)
+    public synchronized void canMove(BouncingBall ball) throws InterruptedException{
+        if(paused)
+        {
+            wait();
+        }
+    }
+}
