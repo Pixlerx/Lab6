@@ -1,10 +1,16 @@
 package bsu.rfe.java.group8.Buben.var12B;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-public class MainFrame extends JPanel {
+public class MainFrame extends JFrame {
 
     private static final int WIDTH = 700;
     private static final int HEIGHT = 500;
@@ -27,20 +33,20 @@ public class MainFrame extends JPanel {
         // создаем меню
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        JMenu ballMenu = new Jmenu("Мячи");
+        JMenu ballMenu = new JMenu("Мячи");
         Action addBallAction = new AbstractAction("Добавить мяч") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 field.addBall();
-                if (!pauseMenuItem.isEnabled() && !resumeMenuItem()) {
+                if (!pauseMenuItem.isEnabled() && !resumeMenuItem.isEnabled()) {
                     pauseMenuItem.setEnabled(true);
                 }
             }
         };
         menuBar.add(ballMenu);
         ballMenu.add(addBallAction);
-        JMenu ControleMenu = new JMenu("Управление");
-        menuBar.add(ControleMenu);
+        JMenu ControlMenu = new JMenu("Управление");
+        menuBar.add(ControlMenu);
         Action pauseAction = new AbstractAction("Приостановить движение") {
             public void actionPerformed(ActionEvent e) {
                 field.pause();
@@ -48,7 +54,7 @@ public class MainFrame extends JPanel {
                 resumeMenuItem.setEnabled(true);
             }
         };
-        pauseMenuItem = controleMenu.add(pauseAction);
+        pauseMenuItem = controlMenu.add(pauseAction);
         pauseMenuItem.setEnabled(false);
         //Добавить в центр граничной компоновки поле Field
         getContentPane().add(field, BorderLayout.CENTER);

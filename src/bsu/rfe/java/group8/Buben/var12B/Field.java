@@ -1,6 +1,8 @@
 package bsu.rfe.java.group8.Buben.var12B;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,9 +20,10 @@ public class Field {
     // Класс таймер отвечает за регулярную генерацию событий ActionEvent
     // При создании его экземпляра используется анонимный класс,
     // реализующий интерфейс ActionListener
-    private Timer repaintTimer = new Timer(n, new ActionListener() {
+    private Timer repaintTimer = new Timer(n,new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Задача обработчика события ActionEvent - перерисовка окна
             repaint();
         }
     });
