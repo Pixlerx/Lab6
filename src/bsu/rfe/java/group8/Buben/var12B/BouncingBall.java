@@ -26,7 +26,7 @@ public class BouncingBall implements Runnable  {
             // через getWidth(), getHeight()
             this.field = field;
             radius = new Double(Math.random()*(MAX_RADIUS-MIN_RADIUS)).intValue() + MIN_RADIUS;
-            speed = new Double(Math.round()*(5*MAX_SPEED/radius)).intValue();
+            speed = new Double(Math.round(5*MAX_SPEED/radius)).intValue();
             if(speed > MAX_SPEED){
                 speed = MAX_SPEED;
             }
@@ -39,7 +39,7 @@ public class BouncingBall implements Runnable  {
             color = new Color((float)Math.random() , (float)Math.random(), (float)Math.random());
             // Начальное положение мяча случайно
             x = Math.random()*(field.getSize().getWidth()-2*radius)+radius;
-            y = Math.random()*(field.gisSize().getHight()-2*radius)+radius;
+            y = Math.random()*(field.getSize().getHeight()-2*radius)+radius;
             Thread thisThread = new Thread(this);
             thisThread.start();
         }
@@ -67,14 +67,15 @@ public class BouncingBall implements Runnable  {
                         // верхняя стенка
                         speedY= -speedY;
                         y= radius;
-                    }else if(y+sdeepY >= field.getHeight()- radius) {
+                    }else if(y+speedY >= field.getHeight()- radius) {
                         // нижняя стенка
                         speedY = -speedY;
                         y = new Double(field.getHeight() - radius).intValue();
                      }else {
                         //простое смещение
-                        x+=speedX;
-                        y+=speedY;
+                        x += speedX;
+                        y += speedY;
+                    }
                         // Засыпаем на X миллисекунд, где X определяется
                         // исходя из скорости
                         // Скорость = 1 (медленно), засыпаем на 15 мс.
@@ -85,9 +86,10 @@ public class BouncingBall implements Runnable  {
                     // Если нас прервали, то ничего не делаем
                     // и просто выходим (завершаемся)
             }
+
         }
         // Метод прорисовки самого себя
-        public void paint(Graphics2D canvas){
+        public void paint(Graphics2D canvas) {
                 canvas.setColor(color);
                 canvas.setPaint(color);
                 Ellipse2D.Double ball = new Ellipse2D.Double(x-radius, y-radius, 2*radius, 2*radius);
@@ -95,7 +97,6 @@ public class BouncingBall implements Runnable  {
                 canvas.draw(ball);
                 canvas.fill(ball);
             }
-    }
+        }
 
 
-}

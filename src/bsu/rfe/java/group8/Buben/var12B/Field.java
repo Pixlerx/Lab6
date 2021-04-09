@@ -6,21 +6,20 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Field {
+public class Field extends JPanel{
     // Флаг приостановленности движения
     private boolean paused;
-    Scanner in = new Scanner(System.in);
-    private int n = in.nextInt();
+
     // Динамический список скачущих мячей
-    private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(n);
+    private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
+
     // Класс таймер отвечает за регулярную генерацию событий ActionEvent
     // При создании его экземпляра используется анонимный класс,
     // реализующий интерфейс ActionListener
-    private Timer repaintTimer = new Timer(n,new ActionListener(){
+    private Timer repaintTimer = new Timer(10,new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
             // Задача обработчика события ActionEvent - перерисовка окна
