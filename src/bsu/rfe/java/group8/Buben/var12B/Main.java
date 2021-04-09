@@ -3,12 +3,7 @@ package bsu.rfe.java.group8.Buben.var12B;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 public class Main extends JFrame {
 
@@ -17,6 +12,7 @@ public class Main extends JFrame {
 
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
+    private JCheckBoxMenuItem JCheckBoxMenuItemMagnetizm;
 
     // поле, по которому движутся шары
     private Field field = new Field();
@@ -36,7 +32,7 @@ public class Main extends JFrame {
         JMenu ballMenu = new JMenu("Мячи");
         Action addBallAction = new AbstractAction("Добавить мяч") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent event) {
                 field.addBall();
                 if (!pauseMenuItem.isEnabled() && !resumeMenuItem.isEnabled()) {
                     pauseMenuItem.setEnabled(true);
@@ -45,10 +41,11 @@ public class Main extends JFrame {
         };
         menuBar.add(ballMenu);
         ballMenu.add(addBallAction);
+
         JMenu controlMenu = new JMenu("Управление");
         menuBar.add(controlMenu);
         Action pauseAction = new AbstractAction("Приостановить движение") {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent event) {
                 field.pause();
                 pauseMenuItem.setEnabled(false);
                 resumeMenuItem.setEnabled(true);
@@ -56,6 +53,40 @@ public class Main extends JFrame {
         };
         pauseMenuItem = controlMenu.add(pauseAction);
         pauseMenuItem.setEnabled(false);
+        Action resumeAction = new AbstractAction("Возобновить движение") {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                field.resume();
+                pauseMenuItem.setEnabled(true);
+                resumeMenuItem.setEnabled(false);
+            }
+        };
+        resumeMenuItem = controlMenu.add(resumeAction);
+        resumeMenuItem.setEnabled(false);
+
+
+        Action Magnetism = new AbstractAction("Магнетизм") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                field.SetShowMagnitism(JCheckBoxMenuItemMagnetizm.isSelected());
+            }
+        };
+        JCheckBoxMenuItemMagnetizm = new JCheckBoxMenuItem(Magnetism);
+        controlMenu.add(JCheckBoxMenuItemMagnetizm);
+        JCheckBoxMenuItemMagnetizm.setSelected(false);
+
+        JMenu refMenu = new JMenu("Справка");
+        menuBar.add(refMenu);
+
+        Action showInformationAction = new AbstractAction("О программе") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(Main.this, "Бубен Иван ✔ \n8 группа ✔\n2-й курс ✔\n☺☺☺",
+                        "Информация о студенте", JOptionPane.PLAIN_MESSAGE);
+            }
+        };
+        JMenuItem showInformationMenuItem = refMenu.add(showInformationAction);
+        showInformationMenuItem.setEnabled(true);
         //Добавить в центр граничной компоновки поле Field
         getContentPane().add(field, BorderLayout.CENTER);
     }

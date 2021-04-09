@@ -12,7 +12,7 @@ import javax.swing.Timer;
 public class Field extends JPanel{
     // Флаг приостановленности движения
     private boolean paused;
-
+    private boolean ShowMagnitism = false;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
 
@@ -27,15 +27,13 @@ public class Field extends JPanel{
         }
     });
     // конструктор
-    public Field()
-    {
+    public Field() {
         setBackground(Color.WHITE);
         // Запуск таймера
         repaintTimer.start();
     }
     // Унаследованный от JPanel метод перерисовки компонента
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         // Вызвать версию метода, унаследованную от предка
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
@@ -45,14 +43,17 @@ public class Field extends JPanel{
         }
     }
     // Метод добавляющий новый мячик
-    public void addBall()
-    {
+    public void addBall() {
         //Заключается в добавлении в список нового экземпляра BouncingBall
         // Всю инициализацию положения, скорости, размера, цвета
         // BouncingBall выполняет сам в конструкторе
         balls.add(new BouncingBall(this));
     }
 
+    public void SetShowMagnitism(boolean ShowMagnitism){
+        this.ShowMagnitism = ShowMagnitism;
+        repaint();
+    }
     // Метод синхронизированный, т.е. только один поток может
     // одновременно быть внутри
     public synchronized void pause() {
