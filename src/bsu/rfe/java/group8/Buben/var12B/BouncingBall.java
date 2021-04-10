@@ -56,18 +56,22 @@ public class BouncingBall implements Runnable  {
                     // В противном случае - активный поток заснѐт
                     field.canMove(this);
                     if(x+speedX <= radius) {
+                        field.canStick(this);
                         // Достигли левой стенки, отскакиваем право
                         speedX = -speedX;
                         x = radius;
                     }else if(x+speedX >= field.getWidth() - radius) {
+                        field.canStick(this);
                         // Достигли правой стенки, отскок влево
                         speedX = -speedX;
                         x = new Double(field.getWidth()-radius).intValue();
                     }else if(y+speedY <= radius) {
+                        field.canStick(this);
                         // верхняя стенка
                         speedY= -speedY;
                         y= radius;
                     }else if(y+speedY >= field.getHeight()- radius) {
+                        field.canStick(this);
                         // нижняя стенка
                         speedY = -speedY;
                         y = new Double(field.getHeight() - radius).intValue();

@@ -10,9 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Field extends JPanel{
+    public boolean magnet = false;
+    public boolean check = true;
+    private boolean showMagnit = false;
     // Флаг приостановленности движения
     private boolean paused;
-    private boolean ShowMagnitism = false;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
 
@@ -50,9 +52,12 @@ public class Field extends JPanel{
         balls.add(new BouncingBall(this));
     }
 
-    public void SetShowMagnitism(boolean ShowMagnitism){
-        this.ShowMagnitism = ShowMagnitism;
-        repaint();
+    public void setShowMagnit(boolean showMagnit) {
+        this.showMagnit = showMagnit;
+    }
+    public boolean getShowMagnit()
+    {
+        return showMagnit;
     }
     // Метод синхронизированный, т.е. только один поток может
     // одновременно быть внутри
@@ -67,10 +72,22 @@ public class Field extends JPanel{
     }
     // Синхронизированный метод проверки, может ли мяч двигаться
     // (не включен ли режим паузы?)
+    public synchronized void magnitized(boolean showMagnit) {
+        if (showMagnit) {
+            magnet = true;
+        } else {
+            magnet = false;
+            notifyAll();
+        }
+    }
     public synchronized void canMove(BouncingBall ball) throws InterruptedException{
         if(paused)
         {
             wait();
         }
+    }
+    public synchronized void canStick (BouncingBall ball) throws InterruptedException {
+        if (magnet == true)
+            wait();
     }
 }

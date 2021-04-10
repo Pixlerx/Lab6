@@ -68,7 +68,8 @@ public class Main extends JFrame {
         Action Magnetism = new AbstractAction("Магнетизм") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                field.SetShowMagnitism(JCheckBoxMenuItemMagnetizm.isSelected());
+                field.setShowMagnit(JCheckBoxMenuItemMagnetizm.isSelected());
+                field.magnitized(field.getShowMagnit());
             }
         };
         JCheckBoxMenuItemMagnetizm = new JCheckBoxMenuItem(Magnetism);
